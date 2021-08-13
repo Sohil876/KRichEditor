@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KRichEditor.iml" filepath="$PROJECT_DIR$/KRichEditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KRichEditor.iml" filepath="$PROJECT_DIR$/.idea/modules/KRichEditor.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/KRichEditor.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/KRichEditor.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/krichtexteditor/KRichEditor.krichtexteditor.iml" filepath="$PROJECT_DIR$/.idea/modules/krichtexteditor/KRichEditor.krichtexteditor.iml" />
     </modules>
