@@ -55,7 +55,6 @@ fun kRichEditorFragment(
         settings: ((KRichEditorFragmentLayout).() -> Unit)? = null
 ): KRichEditorFragment = KRichEditorFragment().apply {
     this.settings = settings
-    this.retainInstance = true
 }
 
 /**

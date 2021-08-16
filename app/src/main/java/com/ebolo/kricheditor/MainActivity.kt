@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val intent = Intent(this, MainActivity2::class.java)
+        startActivity(intent)
+        finish()
         MainActivityLayout().setContentView(this)
 
         editorFragment = supportFragmentManager.findFragmentByTag("EDITOR") as KRichEditorFragment? ?:
