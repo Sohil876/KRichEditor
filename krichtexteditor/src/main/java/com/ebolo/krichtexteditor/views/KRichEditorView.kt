@@ -31,10 +31,10 @@ import ru.whalemare.sheetmenu.SheetMenu
 
 class KRichEditorView : FrameLayout {
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs){
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
     }
 
-    constructor(context: Context) : super(context){
+    constructor(context: Context) : super(context) {
     }
 
     private val eventBus by lazy { EventBus.getInstance() }
@@ -569,7 +569,10 @@ class KRichEditorView : FrameLayout {
      * @param param param of action if necessary
      * @see EditorButton
      */
-    private fun onMenuButtonClicked(@EditorButton.Companion.ActionType type: Int, param: String? = null) {
+    private fun onMenuButtonClicked(
+        @EditorButton.Companion.ActionType type: Int,
+        param: String? = null
+    ) {
         when (type) {
             EditorButton.SIZE -> editor.command(EditorButton.SIZE, param!!)
             EditorButton.FORE_COLOR -> editor.command(EditorButton.FORE_COLOR, param!!)
@@ -702,13 +705,10 @@ class KRichEditorView : FrameLayout {
                     val state = it as Boolean
                     context.runOnUiThread {
                         menuFormatButtons[style]?.setColorFilter(
-                            ContextCompat.getColor(
-                                context,
-                                when {
-                                    state -> buttonActivatedColor
-                                    else -> buttonDeactivatedColor
-                                }
-                            )
+                            when {
+                                state -> buttonActivatedColor
+                                else -> buttonDeactivatedColor
+                            }
                         )
                     }
                 }
