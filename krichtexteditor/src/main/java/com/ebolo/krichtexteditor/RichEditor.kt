@@ -78,6 +78,7 @@ class RichEditor {
     lateinit var mWebView: WebView
     var onInitialized: (() -> Unit)? = null
     var styleUpdatedCallback: ((type: Int, value: Any) -> Unit)? = null
+    var onTextChanged: ((String) -> Unit)? = null
 
     // region Low level function access
 
@@ -129,6 +130,15 @@ class RichEditor {
      */
     @JavascriptInterface
     fun onInitialized() = onInitialized?.invoke()
+
+    @JavascriptInterface
+    fun onTextChanged(source: String) {
+        if (source == "user" || source == "api") {
+            getHtmlContent { html ->
+                onTextChanged?.invoke(html)
+            }
+        }
+    }
 
     // endregion
 

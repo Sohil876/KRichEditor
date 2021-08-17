@@ -19,6 +19,12 @@ var initEditor = function(){
     });
     quill.focus();
 
+    quill.on('text-change', function(delta, oldDelta, source) {
+        if (source) {
+            KRichEditor.onTextChanged(source);
+        }
+    });
+
     KRichEditor.onInitialized();
 };
 

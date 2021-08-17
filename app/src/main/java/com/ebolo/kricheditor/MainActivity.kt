@@ -3,8 +3,10 @@ package com.ebolo.kricheditor
 import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ebolo.krichtexteditor.ui.widgets.EditorButton
 import com.ebolo.krichtexteditor.ui.widgets.EditorButton.Companion.IMAGE
@@ -68,6 +70,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     editorView.editor.setContents(
                         Paper.book("demo").read("content", "")
                     )
+                }
+
+                editorView.editor.onTextChanged = {
+                    Log.d("MainActivity", "Content changed to: $it")
                 }
             }
         )
