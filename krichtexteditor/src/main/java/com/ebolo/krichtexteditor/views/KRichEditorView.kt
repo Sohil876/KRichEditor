@@ -135,8 +135,8 @@ class KRichEditorView : FrameLayout {
                 if (EditorButton.IMAGE in buttonsLayout)
                     imageButtonAction = { onMenuButtonClicked(EditorButton.IMAGE) }
 
-                buttonActivatedColorId = this@KRichEditorView.buttonActivatedColor
-                buttonDeactivatedColorId = this@KRichEditorView.buttonDeactivatedColor
+                buttonActivatedColor = this@KRichEditorView.buttonActivatedColor
+                buttonDeactivatedColor = this@KRichEditorView.buttonDeactivatedColor
             }
             editorToolbar.createToolbar(toolsContainer)
         }

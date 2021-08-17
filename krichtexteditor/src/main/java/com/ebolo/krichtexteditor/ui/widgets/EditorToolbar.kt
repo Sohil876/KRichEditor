@@ -1,6 +1,7 @@
 package com.ebolo.krichtexteditor.ui.widgets
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -17,8 +18,8 @@ class EditorToolbar(private val editor: RichEditor, private val buttonsLayout: L
 
     private lateinit var buttons: Map<Int, ImageView>
 
-    var buttonActivatedColorId: Int = R.color.colorAccent
-    var buttonDeactivatedColorId: Int = R.color.tintColor
+    var buttonActivatedColor: Int = Color.CYAN
+    var buttonDeactivatedColor: Int = Color.GRAY
 
     fun createToolbar(container: LinearLayout) {
         fun createButton(@EditorButton.Companion.ActionType actionType: Int): ImageView {
@@ -56,13 +57,10 @@ class EditorToolbar(private val editor: RichEditor, private val buttonsLayout: L
                 val state = it as Boolean
                 context.runOnUiThread {
                     buttons[buttonId]?.setColorFilter(
-                        ContextCompat.getColor(
-                            context,
-                            when {
-                                state -> buttonActivatedColorId
-                                else -> buttonDeactivatedColorId
-                            }
-                        )
+                        when {
+                            state -> buttonActivatedColor
+                            else -> buttonDeactivatedColor
+                        }
                     )
                 }
             }
