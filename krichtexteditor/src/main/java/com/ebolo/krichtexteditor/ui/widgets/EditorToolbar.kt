@@ -2,6 +2,7 @@ package com.ebolo.krichtexteditor.ui.widgets
 
 import android.content.Context
 import android.view.ViewGroup
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.bitbucket.eventbus.EventBus
@@ -20,8 +21,7 @@ class EditorToolbar(private val editor: RichEditor, private val buttonsLayout: L
     var buttonActivatedColorId: Int = R.color.colorAccent
     var buttonDeactivatedColorId: Int = R.color.tintColor
 
-    fun createToolbar(parent: ViewGroup) = parent.horizontalScrollView {
-        linearLayout {
+    fun createToolbar(horizontalScrollView: HorizontalScrollView) = horizontalScrollView.linearLayout {
             fun createButton(@EditorButton.Companion.ActionType actionType: Int) = imageView(
                     EditorButton.actionButtonDrawables[actionType]!!
             ) {
@@ -42,8 +42,6 @@ class EditorToolbar(private val editor: RichEditor, private val buttonsLayout: L
             }.apply { actionImageViewStyle() }
 
             buttons = buttonsLayout.map { it to createButton(it) }.toMap()
-
-        }.lparams(width = wrapContent, height = dip(40))
     }
 
     fun setupListeners(context: Context) {

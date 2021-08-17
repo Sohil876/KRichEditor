@@ -9,6 +9,6 @@ import org.jetbrains.anko.dip
  */
 
 fun ImageView.actionImageViewStyle() {
-    layoutParams.width = dip(40)
-    layoutParams.height = dip(40)
+    layoutParams.width = dip(42)
+    layoutParams.height = dip(42)
 }
