@@ -1,4 +1,4 @@
-package com.ebolo.krichtexteditor.fragments
+package com.ebolo.krichtexteditor.views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,6 @@ import android.webkit.WebViewClient
 import android.widget.*
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.bitbucket.eventbus.EventBus
 import com.ebolo.krichtexteditor.R
 import com.ebolo.krichtexteditor.RichEditor
@@ -30,7 +29,14 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
 import ru.whalemare.sheetmenu.SheetMenu
 
-class KRichEditorView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class KRichEditorView : FrameLayout {
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs){
+    }
+
+    constructor(context: Context) : super(context){
+    }
+
     private val eventBus by lazy { EventBus.getInstance() }
     private val menuFormatButtons = mutableMapOf<Int, ImageView>()
     private val menuFormatHeadingBlocks = mutableMapOf<Int, View>()
@@ -102,10 +108,10 @@ class KRichEditorView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var onInitialized: (() -> Unit)? = null
 
     @StyleRes
-    var dialogStyle =
+    private var dialogStyle =
         com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog
 
-    fun initView(options: Options = Options.DEFAULT, fragment: Fragment) {
+    fun initView(options: Options = Options.DEFAULT) {
         onInitialized = options.onInitialized
         placeHolder = options.placeHolder
         imageButtonAction = options.imageButtonAction
@@ -525,7 +531,7 @@ class KRichEditorView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             menuButton.visibility = View.GONE
         }
 
-        setupListeners(fragment)
+        setupListeners(context)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -637,23 +643,23 @@ class KRichEditorView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         editor.refreshStyle()
     }
 
-    private fun setupListeners(fragment: Fragment) {
+    private fun setupListeners(context: Context) {
         if (showToolbar) {
             // Setup ui handlers for editor menu
             eventBus.on("style", "style_${EditorButton.SIZE}") {
-                fragment.runOnUiThread { fontSizeTextView.text = (it as String) }
+                context.runOnUiThread { fontSizeTextView.text = (it as String) }
             }
 
             eventBus.on("style", "style_${EditorButton.FORE_COLOR}") {
                 val selectedColor = rgbToHex(it as String)
                 if (selectedColor != null)
-                    fragment.runOnUiThread { textColorPalette.selectedColor = selectedColor }
+                    context.runOnUiThread { textColorPalette.selectedColor = selectedColor }
             }
 
             eventBus.on("style", "style_${EditorButton.BACK_COLOR}") {
                 val selectedColor = rgbToHex(it as String)
                 if (selectedColor != null)
-                    fragment.runOnUiThread { highlightColorPalette.selectedColor = selectedColor }
+                    context.runOnUiThread { highlightColorPalette.selectedColor = selectedColor }
             }
 
             listOf(
@@ -667,7 +673,7 @@ class KRichEditorView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             ).forEach { style ->
                 eventBus.on("style", "style_$style") {
                     val state = it as Boolean
-                    fragment.runOnUiThread {
+                    context.runOnUiThread {
                         menuFormatHeadingBlocks[style]?.backgroundResource = when {
                             state -> R.drawable.round_rectangle_blue
                             else -> R.drawable.round_rectangle_white
@@ -694,10 +700,10 @@ class KRichEditorView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             ).forEach { style ->
                 eventBus.on("style", "style_$style") {
                     val state = it as Boolean
-                    fragment.runOnUiThread {
+                    context.runOnUiThread {
                         menuFormatButtons[style]?.setColorFilter(
                             ContextCompat.getColor(
-                                fragment.requireContext(),
+                                context,
                                 when {
                                     state -> buttonActivatedColorId
                                     else -> buttonDeactivatedColorId
@@ -708,7 +714,7 @@ class KRichEditorView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }
             }
 
-            editorToolbar.setupListeners(fragment.requireContext())
+            editorToolbar.setupListeners(context)
 
             menuButton.setOnClickListener {
                 when (editorMenuContainer.visibility) {
