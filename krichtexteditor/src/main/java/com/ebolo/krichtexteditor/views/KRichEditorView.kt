@@ -2,6 +2,7 @@ package com.ebolo.krichtexteditor.views
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.*
 import android.webkit.WebChromeClient
@@ -26,7 +27,6 @@ import com.google.gson.Gson
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.support.v4.runOnUiThread
 import ru.whalemare.sheetmenu.SheetMenu
 
 class KRichEditorView : FrameLayout {
@@ -102,8 +102,8 @@ class KRichEditorView : FrameLayout {
         EditorButton.CODE_VIEW
     )
 
-    private var buttonActivatedColorId: Int = R.color.colorAccent
-    private var buttonDeactivatedColorId: Int = R.color.tintColor
+    private var buttonActivatedColor: Int = ContextCompat.getColor(context, R.color.colorAccent)
+    private var buttonDeactivatedColor: Int = ContextCompat.getColor(context, R.color.tintColor)
 
     private var onInitialized: (() -> Unit)? = null
 
@@ -116,8 +116,8 @@ class KRichEditorView : FrameLayout {
         placeHolder = options.placeHolder
         imageButtonAction = options.imageButtonAction
         buttonsLayout = options.buttonsLayout
-        buttonActivatedColorId = options.buttonActivatedColorId
-        buttonDeactivatedColorId = options.buttonDeactivatedColorId
+        buttonActivatedColor = options.buttonActivatedColor
+        buttonDeactivatedColor = options.buttonDeactivatedColor
         showToolbar = options.showToolbar
         readOnly = options.readOnly
         dialogStyle = options.dialogStyle
@@ -135,8 +135,8 @@ class KRichEditorView : FrameLayout {
                 if (EditorButton.IMAGE in buttonsLayout)
                     imageButtonAction = { onMenuButtonClicked(EditorButton.IMAGE) }
 
-                buttonActivatedColorId = this@KRichEditorView.buttonActivatedColorId
-                buttonDeactivatedColorId = this@KRichEditorView.buttonDeactivatedColorId
+                buttonActivatedColorId = this@KRichEditorView.buttonActivatedColor
+                buttonDeactivatedColorId = this@KRichEditorView.buttonDeactivatedColor
             }
             editorToolbar.createToolbar(toolsContainer)
         }
@@ -633,12 +633,12 @@ class KRichEditorView : FrameLayout {
 
     // Preparation
     private fun hideMenu() {
-        menuButton.setColorFilter(ContextCompat.getColor(context, buttonDeactivatedColorId))
+        menuButton.setColorFilter(buttonDeactivatedColor)
         editorMenuContainer.visibility = View.GONE
     }
 
     private fun showMenu() {
-        menuButton.setColorFilter(ContextCompat.getColor(context, buttonActivatedColorId))
+        menuButton.setColorFilter(buttonActivatedColor)
         editorMenuContainer.visibility = View.VISIBLE
         editor.refreshStyle()
     }
@@ -705,8 +705,8 @@ class KRichEditorView : FrameLayout {
                             ContextCompat.getColor(
                                 context,
                                 when {
-                                    state -> buttonActivatedColorId
-                                    else -> buttonDeactivatedColorId
+                                    state -> buttonActivatedColor
+                                    else -> buttonDeactivatedColor
                                 }
                             )
                         )
@@ -766,8 +766,8 @@ class Options {
         EditorButton.BLOCK_CODE,
         EditorButton.CODE_VIEW
     )
-    var buttonActivatedColorId: Int = R.color.colorAccent
-    var buttonDeactivatedColorId: Int = R.color.tintColor
+    var buttonActivatedColor: Int = Color.CYAN
+    var buttonDeactivatedColor: Int = Color.GRAY
     var onInitialized: (() -> Unit)? = null
     var showToolbar = true
     var showMenuButton = true
@@ -795,12 +795,12 @@ class Options {
     /**
      * Define the color of the activated buttons in the toolbar
      */
-    fun buttonActivatedColorResource(res: Int) = this.apply { buttonActivatedColorId = res }
+    fun buttonActivatedColorResource(res: Int) = this.apply { buttonActivatedColor = res }
 
     /**
      * Define the color of the de-ctivated buttons in the toolbar
      */
-    fun buttonDeactivatedColorResource(res: Int) = this.apply { buttonDeactivatedColorId = res }
+    fun buttonDeactivatedColorResource(res: Int) = this.apply { buttonDeactivatedColor = res }
 
     /**
      * Define the callback to be executed on editor initialized
