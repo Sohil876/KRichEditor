@@ -1,9 +1,9 @@
 # The name of our workflow
-name: BuildApp
+name: Build
 
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
+# Trigger the workflow on push or pull request,
+# but only for the main branch
   push:
     branches:
       - master
@@ -13,11 +13,20 @@ on:
         - master
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the code
+      - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Build the app
         run: ./gradlew build
+      - name: Build
+        run: bash ./gradlew assembleRelease
+      - name: Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: kricheditor.zip
+          path: app/build/outputs/apk
 
