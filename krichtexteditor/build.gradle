@@ -67,6 +67,11 @@ dependencies {
 }
 
 dokka {
+    kotlinTasks {
+        // dokka fails to retrieve sources from MPP-tasks so they must be set empty to avoid exception
+        // https://stackoverflow.com/questions/56460245/could-not-determine-the-dependencies-of-task-appdokka
+        []
+    }
     outputFormat = 'html'
     outputDirectory = "$buildDir/javadoc"
 }
